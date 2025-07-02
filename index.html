@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive DSA Roadmap for MNCs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Harmony (Enhanced) -->
+    <!-- Application Structure Plan: The application maintains its phased accordion structure for progressive learning, now enhanced with persistent progress tracking. Users can still focus on one phase at a time, with an interactive progress bar providing visual feedback and motivation. Each topic within a phase remains a 'card' with a checkbox, but now completed tasks offer clearer visual distinction. The core structure continues to prioritize digestibility and actionability, with the added benefit of saving user progress across sessions. -->
+    <!-- Visualization & Content Choices: The primary goal remains to organize and inform. The text-heavy report is transformed using interactive HTML structures. Phases are presented as expandable sections (Goal: Organize -> Method: Accordion -> Interaction: Click to expand/collapse). Topics are individual cards with checklists (Goal: Inform/Track Progress -> Method: HTML cards with checkboxes -> Interaction: Check to mark complete, now with persistence via Local Storage and enhanced visual feedback for completion). A dynamic progress bar visualizes completion (Goal: Motivate/Inform -> Method: Dynamic width HTML div -> Interaction: Updates on checkbox click, reflecting persistent state). This approach continues to make the roadmap engaging and practical without traditional charts. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        .phase-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .phase-content.open {
+            max-height: 5000px; 
+        }
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .task-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease;
+        }
+        .checkbox-custom:checked + label .icon-check {
+            display: block;
+        }
+        .checkbox-custom:checked + label {
+            text-decoration: line-through;
+            color: #6B7280;
+        }
+        .checkbox-custom:checked ~ .task-content {
+            opacity: 0.6;
+        }
+        .task-card.completed {
+            background-color: #F3F4F6; /* Lighter background for completed tasks */
+            border-color: #D1D5DB; /* Slightly darker border */
+        }
+        .phase-header:hover {
+            background-color: #FDE68A; /* Lighter amber on hover for phase 1 */
+        }
+        .phase-header[data-phase="2"]:hover {
+            background-color: #BFDBFE; /* Lighter sky blue on hover for phase 2 */
+        }
+        .phase-header[data-phase="3"]:hover {
+            background-color: #C7D2FE; /* Lighter indigo on hover for phase 3 */
+        }
+        .phase-header[data-phase="4"]:hover {
+            background-color: #FECACA; /* Lighter rose on hover for phase 4 */
+        }
+        .phase-header {
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto max-w-5xl px-4 py-8 md:py-12">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">DSA Roadmap for MNCs</h1>
+            <p class="text-lg text-gray-600">Your interactive guide to mastering Data Structures & Algorithms, from scratch to pro.</p>
+        </header>
+
+        <div class="sticky top-0 z-10 bg-gray-50/80 backdrop-blur-sm py-4 mb-8 rounded-xl shadow-sm">
+             <div class="px-6">
+                <h3 class="text-md font-semibold text-gray-700 mb-2 text-center" id="progress-text">Your Progress: 0%</h3>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="progress-bar" class="bg-teal-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <main id="roadmap-container" class="space-y-6">
+
+            <!-- Phase 1 -->
+            <div class="phase-section bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="phase-header flex justify-between items-center p-6 cursor-pointer bg-amber-50" data-phase="1">
+                    <div>
+                        <h2 class="text-2xl font-bold text-amber-800">Phase 1: Fundamentals & Basics</h2>
+                        <p class="text-amber-600">Building a strong foundation for your DSA journey.</p>
+                    </div>
+                    <div class="arrow text-2xl text-amber-800 transform transition-transform duration-300">▼</div>
+                </div>
+                <div class="phase-content p-6 border-t border-gray-200">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Task cards will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-section bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="phase-header flex justify-between items-center p-6 cursor-pointer bg-sky-50" data-phase="2">
+                    <div>
+                        <h2 class="text-2xl font-bold text-sky-800">Phase 2: Intermediate Concepts</h2>
+                        <p class="text-sky-600">Diving into more complex data structures and algorithms.</p>
+                    </div>
+                    <div class="arrow text-2xl text-sky-800 transform transition-transform duration-300">▼</div>
+                </div>
+                <div class="phase-content p-6 border-t border-gray-200">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Task cards will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-section bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="phase-header flex justify-between items-center p-6 cursor-pointer bg-indigo-50" data-phase="3">
+                    <div>
+                        <h2 class="text-2xl font-bold text-indigo-800">Phase 3: Advanced Topics & Practice</h2>
+                        <p class="text-indigo-600">Mastering techniques for solving the toughest problems.</p>
+                    </div>
+                    <div class="arrow text-2xl text-indigo-800 transform transition-transform duration-300">▼</div>
+                </div>
+                <div class="phase-content p-6 border-t border-gray-200">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Task cards will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phase 4 -->
+            <div class="phase-section bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="phase-header flex justify-between items-center p-6 cursor-pointer bg-rose-50" data-phase="4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-rose-800">Phase 4: Interview Prep & Resources</h2>
+                        <p class="text-rose-600">Putting it all together and preparing for success.</p>
+                    </div>
+                    <div class="arrow text-2xl text-rose-800 transform transition-transform duration-300">▼</div>
+                </div>
+                <div class="phase-content p-6 border-t border-gray-200">
+                     <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Task cards will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    const roadmapData = {
+        1: [
+            { title: 'Intro to DSA', content: ['What are Data Structures?', 'What are Algorithms?', 'Why they are important.'] },
+            { title: 'Complexity Analysis', content: ['Big O, Omega, Theta notations', 'Analyze common complexities', 'Calculate space complexity.'] },
+            { title: 'Arrays', content: ['Concepts: contiguous memory, indexing', 'Operations: traversal, insertion, deletion', 'Problems: two pointers, sliding window.'] },
+            { title: 'Strings', content: ['Concepts: character arrays, immutability', 'Operations: manipulation, searching', 'Problems: palindromes, anagrams.'] },
+            { title: 'Linked Lists', content: ['Types: Singly, Doubly, Circular', 'Operations: traversal, insertion, deletion, reversal', 'Floyd\'s Cycle-Finding Algorithm.'] },
+            { title: 'Stacks', content: ['Concepts: LIFO', 'Operations: Push, Pop, Peek', 'Applications: parentheses balancing.'] },
+            { title: 'Queues', content: ['Concepts: FIFO', 'Operations: Enqueue, Dequeue, Peek', 'Applications: BFS, scheduling.'] },
+            { title: 'Basic Recursion', content: ['Concepts: base case, recursive step', 'Problems: Factorial, Fibonacci', 'Understanding recursion tree.'] }
+        ],
+        2: [
+            { title: 'Trees', content: ['Binary Trees, Traversals (Inorder, Preorder, Postorder)', 'Binary Search Trees (BST)', 'Heaps & Priority Queues', 'Balanced BSTs (AVL, Red-Black).'] },
+            { title: 'Hash Maps & Sets', content: ['Concepts: hashing, collision resolution', 'Operations: $O(1)$ average time', 'Applications: frequency counting, caching.'] },
+            { title: 'Graphs', content: ['Representations: Adjacency Matrix & List', 'Traversal: BFS & DFS', 'MST: Prim\'s & Kruskal\'s', 'Shortest Path: Dijkstra\'s, Bellman-Ford.'] },
+            { title: 'Greedy Algorithms', content: ['Concept: locally optimal choices', 'Problems: Activity Selection, Fractional Knapsack.'] },
+            { title: 'Divide and Conquer', content: ['Concept: divide, conquer, combine', 'Algorithms: Merge Sort, Quick Sort, Binary Search.'] }
+        ],
+        3: [
+            { title: 'Dynamic Programming', content: ['Concepts: memoization, tabulation', 'Key patterns: Knapsack, LCS, LIS', 'Crucial for top MNC interviews.'] },
+            { title: 'Backtracking', content: ['Concept: explore all possible solutions', 'Problems: N-Queens, Sudoku, Subsets.'] },
+            { title: 'Tries (Prefix Trees)', content: ['Concept: efficient string retrieval', 'Applications: autocomplete, spell checker.'] },
+            { title: 'Disjoint Set Union', content: ['Concept: manage disjoint sets', 'Operations: Union, Find', 'Applications: Kruskal\'s, connected components.'] },
+            { title: 'Segment/Fenwick Trees', content: ['Concept: efficient range queries & updates', 'Advanced topic for competitive programming.'] }
+        ],
+        4: [
+            { 
+                title: 'Problem-Solving Platforms', 
+                content: [
+                    '<strong>LeetCode:</strong> Your primary resource. Use sheets like Blind 75/NeetCode 150.',
+                    '<strong>HackerRank:</strong> Good for initial practice.',
+                    '<strong>GeeksforGeeks:</strong> Excellent for theory.',
+                    '<strong>Codeforces/CodeChef:</strong> For competitive programming speed.'
+                ] 
+            },
+            { 
+                title: 'Practice Strategy & Mock Interviews', 
+                content: [
+                    'Solve problems by topic, then mixed practice.',
+                    'Understand patterns, don\'t just memorize.',
+                    'Time yourself to simulate interview pressure.',
+                    'Practice explaining your thought process aloud.'
+                ] 
+            },
+            { 
+                title: 'Key Books & Resources', 
+                content: [
+                    'Book: "Cracking the Coding Interview" by Gayle Laakmann McDowell.',
+                    'Book: "Introduction to Algorithms" (CLRS) for deep dives.',
+                    'YouTube: Fraz (Striver), NeetCode, Abdul Bari.'
+                ] 
+            }
+        ]
+    };
+
+    function createTaskCard(task, index, isCompleted) {
+        const uniqueId = `task-${Math.random().toString(36).substr(2, 9)}`;
+        const contentHtml = task.content.map(item => `<li class="text-gray-600">${item}</li>`).join('');
+        const checkedAttribute = isCompleted ? 'checked' : '';
+        const completedClass = isCompleted ? 'completed' : '';
+
+        return `
+            <div class="task-card bg-gray-50 rounded-lg p-4 border border-gray-200 ${completedClass}">
+                <input type="checkbox" id="${uniqueId}" class="task-checkbox checkbox-custom hidden" ${checkedAttribute} data-task-title="${task.title}">
+                <label for="${uniqueId}" class="flex items-center cursor-pointer font-semibold text-gray-800 text-lg">
+                    <span class="w-6 h-6 mr-3 border-2 border-gray-300 rounded-md flex-shrink-0 flex items-center justify-center">
+                        <span class="icon-check hidden w-4 h-4 bg-teal-500 rounded-sm"></span>
+                    </span>
+                    ${task.title}
+                </label>
+                <div class="task-content mt-2 pl-9">
+                    <ul class="list-disc list-inside space-y-1">
+                        ${contentHtml}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+
+    function saveProgress() {
+        const completedTasks = {};
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            if (checkbox.checked) {
+                const phase = checkbox.closest('.phase-section').querySelector('.phase-header').dataset.phase;
+                if (!completedTasks[phase]) {
+                    completedTasks[phase] = [];
+                }
+                completedTasks[phase].push(checkbox.dataset.taskTitle);
+            }
+        });
+        localStorage.setItem('dsaRoadmapProgress', JSON.stringify(completedTasks));
+    }
+
+    function loadProgress() {
+        const savedProgress = localStorage.getItem('dsaRoadmapProgress');
+        return savedProgress ? JSON.parse(savedProgress) : {};
+    }
+
+    function initializeRoadmap() {
+        const roadmapContainer = document.getElementById('roadmap-container');
+        const phaseSections = roadmapContainer.querySelectorAll('.phase-section');
+        const loadedProgress = loadProgress();
+
+        phaseSections.forEach(section => {
+            const phase = section.querySelector('.phase-header').dataset.phase;
+            const tasks = roadmapData[phase];
+            if (tasks) {
+                const grid = section.querySelector('.grid');
+                const phaseCompletedTasks = loadedProgress[phase] || [];
+                grid.innerHTML = tasks.map((task, index) => {
+                    const isCompleted = phaseCompletedTasks.includes(task.title);
+                    return createTaskCard(task, index, isCompleted);
+                }).join('');
+            }
+        });
+        
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const checkboxes = document.querySelectorAll('.task-checkbox');
+        const checkedCheckboxes = document.querySelectorAll('.task-checkbox:checked');
+        const totalTasks = checkboxes.length;
+        const completedTasks = checkedCheckboxes.length;
+
+        if (totalTasks === 0) return;
+
+        const progressPercentage = (completedTasks / totalTasks) * 100;
+        
+        document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        document.getElementById('progress-text').innerText = `Your Progress: ${Math.round(progressPercentage)}% (${completedTasks} / ${totalTasks} topics completed)`;
+
+        checkboxes.forEach(checkbox => {
+            const taskCard = checkbox.closest('.task-card');
+            if (checkbox.checked) {
+                taskCard.classList.add('completed');
+            } else {
+                taskCard.classList.remove('completed');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeRoadmap();
+
+        const phaseHeaders = document.querySelectorAll('.phase-header');
+        phaseHeaders.forEach((header, index) => {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+            
+            if (index === 0) {
+                content.classList.add('open');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                 arrow.style.transform = 'rotate(0deg)';
+            }
+
+            header.addEventListener('click', () => {
+                const isOpen = content.classList.contains('open');
+                
+                phaseHeaders.forEach(h => {
+                   h.nextElementSibling.classList.remove('open');
+                   h.querySelector('.arrow').style.transform = 'rotate(0deg)';
+                });
+
+                if (!isOpen) {
+                    content.classList.add('open');
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        document.getElementById('roadmap-container').addEventListener('change', (e) => {
+            if (e.target.classList.contains('task-checkbox')) {
+                updateProgress();
+                saveProgress();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
